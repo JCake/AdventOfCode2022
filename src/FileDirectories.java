@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class FileDirectories {
 
@@ -115,6 +116,11 @@ public class FileDirectories {
         }
 
         System.out.println(sizeSum);
+
+        long spaceNeededToFree = 30000000 - (70000000 - root.size);
+
+        allDirectories.sort((d1, d2) -> (int) (d1.size - d2.size));
+        System.out.println(allDirectories.stream().filter(dir -> dir.size > spaceNeededToFree).findFirst().get().size);
 
     }
 

@@ -14,6 +14,7 @@ public class Trees {
 
 
         int visibleCount = 0;
+        int maxScenicScore = 0;
         for(int ri = 0; ri < rowsAndColumns.length; ri++){
             Integer[] row = rowsAndColumns[ri];
             for(int ci = 0; ci < row.length; ci++){
@@ -25,14 +26,62 @@ public class Trees {
                     || moreThanAllInRowPortion(val, rowsAndColumns, ri, 0, ci - 1)
                     || moreThanAllInRowPortion(val, rowsAndColumns, ri, ci + 1, row.length - 1)){
                     visibleCount += 1;
+                    int scenicScore = calculateScenicScore(rowsAndColumns, ri, ci);
+                    if(scenicScore > maxScenicScore){
+                        maxScenicScore = scenicScore;
+                    }
                 }
 
             }
 
         }
         System.out.println(visibleCount);
+        System.out.println(maxScenicScore);
+    }
 
+    private static int calculateScenicScore(Integer[][] rowsAndColumns, int ri, int ci) {
+        int thisValue = rowsAndColumns[ri][ci];
 
+        int scenicScore1 = 0;
+        for(int i = ri - 1; i >= 0; i--){
+            if(rowsAndColumns[i][ci] < thisValue){
+                scenicScore1++;
+            } else {
+                scenicScore1++;
+                break;
+            }
+        }
+
+        int scenicScore2 = 0;
+        for(int i = ri + 1; i < rowsAndColumns.length; i++){
+            if(rowsAndColumns[i][ci] < thisValue){
+                scenicScore2++;
+            } else {
+                scenicScore2++;
+                break;
+            }
+        }
+
+        int scenicScore3 = 0;
+        for(int i = ci - 1; i >= 0; i--){
+            if(rowsAndColumns[ri][i] < thisValue){
+                scenicScore3++;
+            } else {
+                scenicScore3++;
+                break;
+            }
+        }
+
+        int scenicScore4 = 0;
+        for(int i = ci + 1; i < rowsAndColumns[0].length; i++){
+            if(rowsAndColumns[ri][i] < thisValue){
+                scenicScore4++;
+            } else {
+                scenicScore4++;
+                break;
+            }
+        }
+        return scenicScore1 * scenicScore2 * scenicScore3 * scenicScore4;
     }
 
     private static boolean moreThanAllInColPortion(Integer val, Integer[][] rowsAndColumns, int colIndex, int rowIndexLower, int rowIndexHigher) {
@@ -52,6 +101,13 @@ public class Trees {
         }
         return true;
     }
+
+    private static final String TEST_TREES =
+            "30373\n" +
+            "25512\n" +
+            "65332\n" +
+            "33549\n" +
+            "35390";
 
     private static final String TREES =
             "220102001303332210111144403232401113333122342344231242454143210203320302212443030013122003001101100\n" +

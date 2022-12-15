@@ -7,6 +7,34 @@ import static java.lang.Integer.parseInt;
 public class DistressSignals {
 
 
+    // TODO sorting algorithm!
+    public static int decoderKey(String input){
+        String[] lines = input.split("\n");
+        List<String> linesToSort = new ArrayList<>();
+        for(String line : lines){
+            if(!"".equals(line)){
+                linesToSort.add(line);
+            }
+        }
+        linesToSort.add("[[2]]");
+        linesToSort.add("[[6]]");
+
+        linesToSort.sort((a,b) -> {
+            Boolean rightOrder = isRightOrder(a,b);
+            if(rightOrder == null){
+                return 0;
+            } else if(rightOrder){
+                return -1;
+            } else {
+                return 1;
+            }
+        });
+
+        return (linesToSort.indexOf("[[2]]") + 1) * (linesToSort.indexOf("[[6]]") + 1);
+
+    }
+
+
     public static int rightOrderIndexSum(String input) {
         String[] pairs = input.split("\n\n");
         int indexSum = 0;
